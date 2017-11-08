@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+#div1{border:1px solid black;padding:5px;width:200px;height:200px;position:relative;}
+.small_pic{width:200px;height:200px;position: relative;top:0px; left:0px;}
+.small_pic .mark{position: absolute;width:100%;height:100%;top:0px; left:0px;filter:alpha(opacity=0);opacity:0;z-index: 2;}
+.small_pic .float_pic{position: absolute;width:50px;height: 50px;filter:alpha(opacity=20);opacity:0.2;border:1px solid black;top:10px;left:10px;background: blue;display: none}
+.big_pic {width:250px;height:250px; position: absolute;left: 210px;top:0px;border:1px solid black;overflow: hidden;display: none}
+.big_pic img{position: absolute;top:10px;left:0;}
+img{vertical-align: top}
+</style>
+<script type="text/javascript">
+window.onload=function (){
+	var oDiv1=document.getElementById("div1");
+	var oMark=document.querySelector(".mark");
+	var oSmall=document.querySelector(".small_pic");
+	var oFloat=document.querySelector(".float_pic");
+	var oBig=document.querySelector(".big_pic");
+	var oImg=document.querySelector(".big_img");
+
+	oMark.onmouseover=function ()
+	{
+		oFloat.style.display='block';
+		oBig.style.display='block';
+	};
+	oMark.onmouseout=function (){
+		oFloat.style.display="none";
+		oBig.style.display="none";
+	};
+	oMark.onmousemove=function (ev){
+		var oEvent=ev||window.event;
+		var lt=oEvent.clientX-oDiv1.offsetLeft-oSmall.offsetLeft-oFloat.offsetWidth/2;
+		var tp=oEvent.clientY-oDiv1.offsetTop-oSmall.offsetTop-oFloat.offsetHeight/2;
+		// console.log(lt+"+"+tp);
+		if(lt<0){
+			lt=0;
+		}
+		else if(lt>oSmall.offsetWidth-oFloat.offsetWidth){
+			lt=oSmall.offsetWidth-oFloat.offsetWidth;
+		}
+		if(tp<0){
+			tp=0;
+		}
+		else if(tp>oSmall.offsetHeight-oFloat.offsetHeight){
+			tp=oSmall.offsetHeight-oFloat.offsetHeight;
+		}
+		oFloat.style.left=lt+'px';
+		oFloat.style.top=tp+"px";
+		var degLeft=lt/(oSmall.offsetWidth-oFloat.offsetWidth);
+		var degTop=tp/(oSmall.offsetHeight-oFloat.offsetHeight);
+		oImg.style.left=-(oImg.offsetWidth-oBig.offsetWidth)*degLeft+"px";
+		oImg.style.top=-(oImg.offsetHeight-oBig.offsetHeight)*degTop+"px";
+	};
+
+
+}
+</script>
+</head>
+<body>
+<div id="div1">
+	<div class="small_pic">
+		<span class="mark"></span>
+		<span class="float_pic"></span>
+		<img src="images/small.png"/>
+	</div>
+	<div class="big_pic"><img class="big_img" src="images/big.png" /></div>
+</div>
+</body>
+</html>
