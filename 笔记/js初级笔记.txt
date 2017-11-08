@@ -1,0 +1,361 @@
+数据类型/Nmuber方法/Boolean方法
+字符串对象和数组对象 new Date()相关方法
+元素（自定义与非自定义）属性的获取和设置/（行间与加载完后）样式的设置和获取
+DOM获取元素标签对象
+
+
+
+01
+js的属性操作
+HTML 的属性操作：读、写
+属性名：
+属性值：
+		
+读操作：获取、找到
+元素.属性名
+		
+写操作：“添加”、替换、修改
+元素.属性名 = 新的值
+src的属性值不要去获取用于判断
+oP.innerHTML					=> 读取p里面所有的html代码
+oP.innerHTML = 123;		=> 替换p里面所有的html代码
+JS 不允许出现"-"
+padding-top		paddingTop
+margin-left		marginLeft
+操作class属性
+class => className
+
+相对路径的问题：值不能用于判断
+oDiv.style.styleFloat = 'right';		// IE
+oDiv.style.cssFloat = 'left';			// 非IE
+IE（styleFloat）
+非IE（cssFloat）
+arr.push('img/3.jpg');
+arr.length 
+text-align;对于子元素，若该元素为内嵌元素则可以居中，若为块元素，则块元素下的文字都会居中
+
+
+
+
+
+
+02
+#list {}		var oUl = document.getElementById('list');							静态方法
+
+li {}		document.getElementsByTagName('li');									动态方法
+#list li {} var aLi = oUl.getElementsByTagName('li');
+// aLi => [ li, li, li ]	 元素的集合
+aLi.length								3
+aLi[0]
+// 在用 TagName 的时候，必须要加上：[]
+
+当元素是在html中是唯一的标签时，可以直接document.title;
+document.body.innerHTML
+操作style样式
+oDiv.style.cssText 
+会完全替换行间样式，覆盖内部样式
+获取的值为设置的值，不会因为相对路径而改变，但是IE会将属性值大写
+
+JS 可以为任何HTML元素添加任意个 自定义属性
+
+
+
+
+
+
+
+03
+如果有相同的样式时，可以使用内部样式来设置而不通过js设置
+
+
+
+
+
+
+
+
+
+
+
+04
+ECMAScript：标准、核心
+HTML 标签类型：block、inline、inline-block、table……
+JS中的数据类型：数字、字符串、布尔、函数、对象(obj、[]、{}、null)、未定义
+
+typeof 判断数据类型
+// alert( typeof u );			// undefined 未定义
+// 表示你写的程序出问题了~~
+Number(a)
+只有a字符串里面的字符是数字就可以转为数字,如+100，-100，100.975。空字符串转为0
+若为布尔值，true转为1，false转为0
+若为空数组，则为0，若数组只有一个值，则这个值如果可以转为数字就是数字，不能就为NAN。
+json则为NAN
+null为0
+function为NAN
+未定义为NAN
+
+显式类型转换（强制类型转换）：
+Number()
+parseInt()
+parseFloat()
+
+隐式类型转换：
+	+								200 + '3'		变成字符串
+	- * / %				'200' - 3     变成数字
+	++ --						变成数字
+	> < 						数字的比较 、字符串的比较
+	!	取反					把右边的数据类型转成布尔值
+
+NAN 为false
+“” 为false
+function 为false
+null 为false
+未定义为flase
+
+
+
+
+
+
+
+
+06/07
+// 作用域：
+// 域：空间、范围、区域……
+// 作用：读、写
+
+script		全局变量、全局函数
+		自上而下
+	
+函数
+由里到外
+{}
+浏览器：
+“JS解析器”
+1）“找一些东西”	：var  function 参数
+a = ...
+所有的变量，在正式运行代码之前，都提前赋了一个值：未定义
+fn1 = function fn1(){ alert(2); }
+所有的函数，在正式运行代码之前，都是整个函数块
+JS 的预解析
+遇到重名的：只留一个
+变量和函数重名了，就只留下函数
+2）逐行解读代码：
+表达式：= + - * / % ++ -- ! 参数……
+表达式可以修改预解析的值！
+
+alert( fn1 );		// FF 不能对下面的函数进行预解析
+var a = 1;
+if( true ){
+	function fn1(){
+	alert(123);
+}
+}
+
+switch( str ){
+	case 'js' : 
+		alert( 'js' ); break;
+	case 'html' : 
+		alert( 'html' ); break;
+	default :
+		alert( str );
+}
+真假的问题：数据类型-数字（NaN）、字符串、布尔、函数、对象（elem、[]、{}、null）、未定义
+真：非0的数字、非空字符串、true、函数、能找到的元素、[]、{}
+假：0、NaN、空字符串''、false、不能找到的元素、null、未定义
+return：返回值
+1) 函数名+括号：fn1()	==>  return 后面的值；
+2) 所有函数默认返回值：未定义；相当于return;
+3) return 后面任何代码都不执行了；			
+
+
+
+
+
+
+
+
+
+
+
+08
+function $( v ){
+	if( typeof v === 'function' ){
+		window.onload = v;
+	} else if ( typeof v === 'string' ) {
+		return document.getElementById(v);
+	} else if ( typeof v === 'object' ) {
+		return v;
+	}
+}
+
+function getStyle( obj, attr ){
+	return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle( obj )[attr];
+}
+
+arguments => [ 1,2,3 ] —— 实参的集合
+alert( getComputedStyle( $('div1') ).width );	// IE6 7 8 不兼容
+alert( $('div1').currentStyle.width );	       // 标准浏览器不兼容
+
+获取到的是计算机（浏览器）计算后的样式
+background: url() red ……		复合样式（不要获取）
+backgroundColor	单一样式（不要用来做判断）
+不要有空格
+不要获取未设置后的样式：不兼容
+
+定时器：时间概念
+var timer = setInterval( 函数, 毫秒 );	        重复执行（发动机）
+clearInterval( timer );																	清除
+var timer = setTimeout( 函数, 毫秒 );		执行一次（炸弹）
+clearTimeout( timer );
+图片自动切换实例
+qq移入移出显示。
+
+
+
+
+
+
+
+
+9/10
+endFn && endFn();
+var myTime = new Date();
+// number
+var iYear = myTime.getFullYear();
+var iMonth = myTime.getMonth()+1;
+var iDate = myTime.getDate();
+var iWeek = myTime.getDay();
+var iHours = myTime.getHours();
+var iMin = myTime.getMinutes();
+var iSec = myTime.getSeconds();
+if( iWeek === 0 ) iWeek = '星期日';
+if( iWeek === 1 ) iWeek = '星期一';
+if( iWeek === 2 ) iWeek = '星期二';
+if( iWeek === 3 ) iWeek = '星期三';
+if( iWeek === 4 ) iWeek = '星期四';
+if( iWeek === 5 ) iWeek = '星期五';
+if( iWeek === 6 ) iWeek = '星期六';
+
+
+数字形式：var iNew = new Date( 2013, 10, 27,  21,56,0  );
+字符串形式：var iNew = new Date( 'November 27,2013 22:3:0' );
+天：Math.floor(t/86400)
+时：Math.floor(t%86400/3600)
+分：Math.floor(t%86400%3600/60)
+秒：t%60
+January、February、March、April、May、June、
+July、August、September、October、November、December
+
+
+
+
+
+
+11
+str.length
+str.charAt()  返回第一个值。
+str.charCodeAt()
+str.charCodeAt(1)
+String.fromCharCode(22937, 21619) 
+若下标超过了字符串的长度，返回空字符
+// alert( str.indexOf('m') );
+// alert( str.indexOf('m', 5) ); 如果第2个值为负数，默认当成0来处理
+// alert( str.indexOf('X') );
+
+alert( str.substring(0,2) );
+alert( str.substring(2,0) );				// 可以检测两个数，大的往后扔，小的往前扔
+alert( str.substring(-3, 2) );			// -3 当成0处理
+alert( str.substring(2, -3) );
+// alert( str.slice( 2, 0 ) );				// 不交换位置
+alert( str.slice( -4, -2 ) );				// 负数从后面倒着往前数~
+
+// alert( str.toUpperCase() );			// 转成大写
+// alert( str.toLowerCase() );			// 转成小写
+
+
+var str = 'www.miaov.com';
+// alert( typeof str.split('.') );				// [ 'www', 'miaov', 'com' ]
+var arr = str.split( '.' );
+// alert( arr[1] );
+
+var str1 = 'leo';
+// alert( typeof str1.split() );			// [ 'leo' ]
+
+// alert( str1.split('') );			// [ 'l', 'e', 'o' ]
+
+var str2 = '妙味课堂';
+
+// alert( str2.split('味') );
+
+var str3 = '/www.miaov.com/';
+
+// alert( str3.split('/').length );			// [ , www.miaov.com,  ]
+
+var str4 = '2013-11-29-23-07';
+
+alert( str4.split('-', 3) );	
+
+var arr = [ 'aa', 'bb', 'cc' ];
+alert( typeof arr.join() );	'aa'+','+'bb'+','+'cc'
+alert( arr.join().length );
+alert( arr.join('') );
+alert( arr.join('-') );
+
+
+'1000' < '2'			// true
+'1000' > 2			// true
+
+
+
+
+
+
+12
+for-in遍历对象属性
+for ( var attr in document ) {
+	str += num + '. ' + attr + ':' +document[attr] + '<br />';
+	num ++;
+}
+
+// alert( arr.push( 'abc' ) );返回数组的长度
+
+// alert( arr );
+
+alert( arr.unshift( 0 ) );返回数组的长度			
+// alert( arr );
+
+// alert( arr.pop() );
+// alert( arr );
+alert( arr.shift() );返回被删除的字符串
+
+
+var arr = [ 'TM', '钟毅', '张森', '杜鹏', 'Leo' ];
+// 删除、替换、添加
+alert( arr.splice( 0 , 0, 'aaaaaa' ) );
+
+// arr.splice( 0, 2, '莫涛 or 钟毅' );
+
+// alert( arr.splice( 1, 0, '钟毅媳妇儿~', '钟毅媳妇们~' ) );
+第二个值为0为添加，为1则替换，其他删除
+// arr2.sort();
+// alert( arr2 );
+
+arr2.sort(function ( a, b ) {
+	return a - b;
+});
+
+var arrWidth = [ '345px', '23px', '10px', '1000px' ];
+
+arrWidth.sort(function ( a, b ) {
+	return parseInt(a) - parseInt(b);
+});
+
+alert( arrWidth );
+随机排列
+arr.sort(function ( a, b ) {
+	return Math.random() - 0.5;
+});
+Math.Round(3.76, 1) 
+arr1.concat( arr2, arr3 ) 
+alert(str.split('').reverse().join(''));

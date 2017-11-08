@@ -1,0 +1,438 @@
+如何获取子节点和兄弟节点
+如何创建节点，删除节点，添加节点
+表单如何操作节点以及onchange事件
+window open()与close() 以及onscroll,onresize事件 navigator.userAgent属性 location属性
+获取文档的可视区宽高和滚动距离
+表格操作
+event事件/事件绑定/获取鼠标的位置 
+键盘事件/鼠标右击菜单事件
+拖拽会拖拽文字的解决方案：在IE8下renturn false不能解决 使用setCapture阻止捕获解决
+鼠标滚轮事件/事件不同绑定形式如何阻止默认事件
+document.cookie
+
+01
+元素.childNodes : 只读 属性 子节点列表集合
+标准下：包含了文本和元素类型的节点，也会包含非法嵌套的子节点
+非标准下：只包含元素类型的节点，ie7以下不会包含非法嵌套子节点
+childNodes只包含一级子节点，不包含后辈孙级以下的节点
+DOM节点的类型有很多种	12种
+元素.nodeType : 只读 属性 当前元素的节点类型
+元素节点	:	1
+属性节点	:	2
+文本节点 :	3
+元素.attributes : 只读 属性 属性列表集合	
+alert( oUl.attributes.length );
+alert( oUl.attributes[0].nodeType );
+
+元素.children : 只读 属性 子节点列表集合
+标准下：只包含元素类型的节点
+非标准下：只包含元素类型的节点
+
+元素.firstChild : 只读 属性 第一个子节点
+标准下：firstChild会包含文本类型的节点
+非标准下：只包含元素节点
+元素.firstElementChild : 只读 属性 标准下获取第一个元素类型的子节点
+元素.lastChild || 元素.lastElementChild 最后一个子节点
+元素.nextSibling || 元素.nextElementSibling 下一个兄弟节点
+元素.previousSibling || 元素.previousElementSibling 上一个兄弟节点
+var oFirst = oUl.firstElementChild || oUl.firstChild;只要有一个是真就赋值给oFirest为真
+元素.parentNode : 只读 属性 当前节点的父级节点
+
+元素.offsetParent : 只读 属性 离当前元素最近的一个有定位属性的父节点
+如果没有定位父级，默认是body
+元素.offsetLeft[Top] : 只读 属性 当前元素到定位父级的距离（偏移值）
+到当前元素的offsetParent的距离
+如果没有定位父级
+offsetParent -> body
+offsetLeft -> html
+width height
+style.width : 样式宽
+clientWidth : 可视区宽
+offsetWidth	: 占位宽
+alert( oDiv.style.width );	//100
+alert( oDiv.clientWidth );	//样式宽 + padding	120
+alert( oDiv.offsetWidth );	//样式宽 + padding + border  可视区宽 + 边框	122
+
+操作元素属性的多种方式
+1.oText.value = '222';
+2.oText['value'] = '222'
+3.alert( oText.getAttribute('value') );oText.setAttribute( 'value', 'hello' );
+元素.removeAttribute(属性名称); 方法 移除指定的元素的指定的属性
+oText.removeAttribute( 'value' );
+1.用.和[]的形式无法操作在元素中行间样式设置的自定义属性
+getAttribute可以操作元素的自定义属性
+alert( oImg.getAttribute('src') );
+alert( oImg.style.getAttribute('width') );
+
+
+创建元素	
+document.createElement(标签名称); 
+删除元素
+父级.removeChild(要删除的元素); 
+追加子元素
+父级.appendChild(要添加的元素) 方法
+父级.insertBefore(新的元素，被插入的元素) 方法 在指定元素前面插入一个新元素
+在ie下如果第二个参数的节点不存在，会报错
+在其他标准浏览器下如果第二个参数的节点不存在，则会以appendChild的形式进行添加
+
+
+
+
+
+
+
+
+
+02
+表单
+var oForm = document.getElementById('form1');
+//获取表单中一个元素  表单.元素name
+document.onclick = function() {
+		
+		
+		alert( oForm.username.value );
+		
+}
+<form id="form1">
+    	<input type="text" id="text1" name="username" value="" />
+</form>
+
+//onchange : 当值发生改变的时候触发
+//text : 当光标离开元素的时候再去判断值是否发生了变化，如果发生了变化则触发onchange事件
+/*oForm.username.onchange = function() {
+		alert('值变了');
+}*/
+
+	//alert( oForm.sex[0].checked );
+
+/*oForm.sex[0].onchange = function() {
+		alert(1);
+	}*/(
+radio值改变，触发onchange。但在IE8下无效  点击空白区域，失去焦点时才触发onchange 
+onclick=function(){this.blur()}失去焦点
+text,checkbox,select值改变触发onchange
+
+
+onsubmit : 当表单被提交的时候触发
+onreset : 当表单要重置的时候触发
+confirm('你确定要重置？')
+<input type="submit" value="提交" />
+<input type="reset" value="重置" />
+
+
+open(地址默认是空白页面，打开方式默认新窗口) 打开一个新窗口
+window.open('http://www.baidu.com', '_self');
+opener = window.open();//返回值 返回的新开页面的window对象
+alert(opener == window)
+opener.document.body.style.background = 'red';
+window.close();
+/*
+ff : 无法关闭
+chrome : 直接关闭
+ie : 询问用户
+*/
+aInput[2].onclick = function() {
+		opener.close();	//可以通过关闭用window.open方法打开的窗口在火狐下也有效
+}
+window.navigator.userAgent : 浏览器信息
+if ( window.navigator.userAgent.indexOf('MSIE') != -1 ) {
+	alert('我是ie');
+} else {
+	alert('我不是ie');
+}
+//window.location : 地址
+/*
+window.location.href = window.location内容
+window.location.search = url?后面的内容
+window.location.hash = url#后面的内容
+*/
+
+可视区尺寸
+alert( document.documentElement.clientHeight );
+//滚动距离
+alert( document.documentElement.scrollTop );
+alert( document.body.scrollTop );
+document.documentElement.scrollTop = 100
+var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+内容实际宽高	
+//scrollHeight 	
+
+可视区尺寸document.documentElement.clientWidth  document.documentElement.clientHeight
+滚动距离document.body.scrollTop/scrollLeft document.documentElement.scrollTop/scrollLeft
+内容高度document.body.scrollHeight
+文档高度document.documentElement.offsetHeight    document.body.offsetHeight
+
+offsetHeight
+alert( document.body.offsetHeight );
+//ie : 如果内容没有可视区高，那么文档高就是可视区
+//alert( document.documentElement.offsetHeight );
+//onscroll : 当滚动条滚动的时候触发
+//onresize : 当窗口大小发生变化的时候触发
+window.onscroll = function() {
+	document.title = i++;
+}
+window.onresize = function() {
+	document.title = i++;
+}
+//Math.max();返回数值参数中最大的一个值
+//Math.min()
+oMask.style.width = Math.max( document.body.offsetWidth, document.documentElement.clientWidth ) + 'px';
+		oMask.style.height = Math.max( document.body.offsetHeight, document.documentElement.clientHeight ) + 'px';
+优酷弹窗
+表格操作
+获取tBodies、tHead、tFoot、rows、cells
+oTab.tBodies[0].rows[1].cells[1]
+
+
+
+
+
+
+
+03
+
+焦点 : 使浏览器能够区分用户输入的对象，当一个元素有焦点的时候，那么他就可以接收用户的输入。
+我们可以通过一些方式给元素设置焦点
+	1.点击
+	2.tab
+	3.js
+
+不是所有元素都能够接收焦点的.能够响应用户操作的元素才有焦点
+//onfocus : 当元素获取到焦点的时候触发
+//onblur : 当元素失去焦点的时候触发
+
+event : 事件对象 , 当一个事件发生的时候，和当前这个对象发生的这个事件有关的一些详细的信息都会被临时保存到一个指定地方-event对象，供我们在需要的调用。飞机-黑匣子
+
+事件对象必须在一个事件调用的函数里面使用才有内容
+事件函数：事件调用的函数，一个函数是不是事件函数，不在定义的决定，而是取决于这个调用的时候
+
+兼容
+ie/chrome : event是一个内置全局对象
+标准下 : 事件对象是通过事件函数的第一个参数传入
+
+如果一个函数是被事件调用的那么，这个函数定义的第一个参数就是事件对象
+
+clientX[Y] : 当一个事件发生的时候，鼠标到页面可视区的距离
+*/
+
+//alert( event );	//这里没有事件
+
+/*document.onclick = function() {
+	alert(event);
+};*/
+
+
+事件冒泡 :
+当一个元素接收到事件的时候，会把他接收到的所有传播给他的父级，一直到顶层window.事件冒泡机制
+阻止冒泡 : 当前要阻止冒泡的事件函数中调用 event.cancelBubble = true;
+ev.cancelBubble = true;//阻止当前对象的当前事件的冒泡
+
+//document.onclick = fn1;
+//document.onclick = fn2;	//会覆盖前面绑定fn1
+
+//给一个对象的同一个事件绑定多个不同的函数
+//给一个元素绑定事件函数的第二种形式
+
+/*
+ie : obj.detachEvent(事件名称，事件函数);
+标准 : obj.removeEventListener(事件名称，事件函数，是否捕获);
+*/
+/*document.attachEvent('onclick', fn1);
+document.attachEvent('onclick', fn2);
+document.detachEvent('onclick', fn1);*/
+ie：obj.attachEvent(事件名称，事件函数);
+	1.没有捕获
+	2.事件名称有on
+	3.事件函数执行的顺序：标准ie-》正序   非标准ie-》倒序
+	4.this指向window
+标准：obj.addEventListener(事件名称，事件函数，是否捕获);
+	1.有捕获
+	2.事件名称没有on
+	3.事件执行的顺序是正序
+	4.this触发该事件的对象
+*/
+
+/*document.attachEvent('onclick', function() {
+	fn1.call(document);
+});
+document.attachEvent('onclick', fn2);*/
+
+//是否捕获 : 默认是false    false:冒泡 true：捕获
+
+/*document.addEventListener('click', fn1, false);
+document.addEventListener('click', fn2, false);*/
+
+
+//call 函数下的一个方法，call方法第一个参数可以改变函数执行过程中的内部this的指向，call方法第二个参数开始就是原来函数的参数列表
+
+
+
+
+
+
+
+
+
+
+
+04
+onkeydown : 当键盘按键按下的时候触发
+onkeyup : 当键盘按键抬起的时候触发
+
+event.keyCode : 数字类型 键盘按键的值 键值
+ctrlKey,shiftKey,altKey 布尔值
+当一个事件发生的时候，如果ctrl || shift || alt 是按下的状态，返回true，否则返回false
+
+//不是所有元素都能够接收键盘事件，能够响应用户输入的元素，能够接收焦点的元素就能够接收键盘事件
+//onkeydown : 如果按下不抬起，那么会连续触发
+//定时器
+
+事件默认行为：当一个事件发生的时候浏览器自己会默认做的事情
+怎么阻止？
+当前这个行为是什么事件触发的，然后在这个事件的处理函数中使用return false;
+*/
+
+document.onkeydown = function() {
+	
+	return false;
+	
+}
+
+//oncontextmenu : 右键菜单事件，当右键菜单（环境菜单）显示出来的时候触发
+
+
+
+
+
+
+
+
+
+05
+拖拽
+
+oDiv.onmousedown = function(ev) {
+		var ev = ev || event;
+		
+		var disX = ev.clientX - this.offsetLeft;
+		var disY = ev.clientY - this.offsetTop;
+		
+		document.onmousemove = function(ev) {
+			var ev = ev || event;
+			
+			oDiv.style.left = ev.clientX - disX + 'px';
+			oDiv.style.top = ev.clientY - disY + 'px';
+			
+		}
+		
+		document.onmouseup = function() {
+			document.onmousemove = document.onmouseup = null;
+		}
+		
+}
+1.拖拽的时候，如果有文字被选中，会产生问题
+原因：当鼠标按下的时候，如果页面中有文字被选中，那么会触发浏览器默认拖拽文字的效果,拖拽图片会有问题，原因，解决的办法同上
+解决：
+标准：阻止默认行为
+非标准ie：全局捕获
+oDiv.onmousedown = function(ev) {
+	var ev = ev || event;
+		
+	var disX = ev.clientX - this.offsetLeft;
+	var disY = ev.clientY - this.offsetTop;
+	
+	if ( oDiv.setCapture ) {
+		oDiv.setCapture();
+	}
+		
+	document.onmousemove = function(ev) {
+		var ev = ev || event;
+			
+		oDiv.style.left = ev.clientX - disX + 'px';
+	  	oDiv.style.top = ev.clientY - disY + 'px';
+	}
+		
+	document.onmouseup = function() {
+		document.onmousemove = document.onmouseup = null;
+		//释放全局捕获 releaseCapture();
+		if ( oDiv.releaseCapture ) {
+			oDiv.releaseCapture();
+		}
+	}
+		
+	return false;
+		
+}
+
+
+aInput[0].setCapture();	//设置全局捕获 ，当我们给一个元素设置全局捕获以后，那么这个元素就会监听后续发生的所有事件，当有事件发生的时候，就会被当前设置了全局捕获的元素所触发
+	
+/*
+ie : 有，并且有效果
+ff : 有，但是没效果
+chrome : 没有
+*/
+
+磁性吸附练习
+碰撞检测练习
+拖拽改变层练习	
+滚动条练习
+其中offsetTop/offsetLeft没有定位元素relative是基于html,如果父级是absoulte,子元素也是absolute，那么css设置left和top时是基于父级为定位
+但是offsetParent是基于body定位
+	
+
+
+
+
+
+
+
+06
+鼠标滚轮练习
+ie/chrome : onmousewheel
+event.wheelDelta
+	上：120
+	下：-120
+		
+firefox : DOMMouseScroll 必须用addEventListener
+	event.detail
+	上：-3
+	下：3
+			
+return false阻止的是  obj.on事件名称=fn 所触发的默认行为
+addEventListener绑定的事件需要通过event下面的preventDefault();
+
+
+COOKIE
+cookie : 存储数据，当用户访问了某个网站（网页）的时候，我们就可以通过cookie来像访问者电脑上存储数据
+1.不同的浏览器存放的cookie位置不一样，也是不能通用的
+2.cookie的存储是以域名形式进行区分的
+3.cookie的数据可以设置名字的
+4.一个域名下存放的cookie的个数是有限制的，不同的浏览器存放的个数不一样
+5.每个cookie存放的内容大小也是有限制的，不同的浏览器存放大小不一样
+	
+我们通过document.cookie来获取当前网站下的cookie的时候，得到的字符串形式的值，他包含了当前网站下所有的cookie。他会把所有的cookie通过一个分号+空格的形式串联起来
+如果我们想长时间存放一个cookie。需要在设置这个cookie的时候同时给他设置一个过期的时间
+cookie默认是临时存储的，当浏览器关闭进程的时候自动销毁
+	
+
+
+//alert(typeof oDate)
+//alert(typeof oDate.toGMTString());
+
+//内容最好编码存放,encodeURI
+
+//alert( encodeURI('你好') );
+//alert( decodeURI('%E4%BD%A0%E5%A5%BD') )
+
+/*document.cookie = 'username='+ encodeURI('leo\n你好') +';expires=' + oDate.toGMTString();
+document.cookie = 'age=32';*/
+
+//document.cookie
+//alert(decodeURI(document.cookie));	//username=leo; age=32
+
+/*document.cookie = 'username=leo;expires=' + oDate.toGMTString();
+document.cookie = 'age=32';*/
+
+var oDate = new Date();
+oDate.setDate( oDate.getDate() + 5 );

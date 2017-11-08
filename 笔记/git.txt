@@ -1,0 +1,83 @@
+一.指定仓库的用户名和email地址
+$ git config --global user.name "Your Name"
+$ git config --global user.email "email@example.com"
+
+二.创建版本库
+1，创建空目录
+$ mkdir learngit
+$ cd learngit
+$ pwd
+/Users/michael/learngit
+2.使空目录变成可管理的目录
+$ git init
+Initialized empty Git repository in /Users/michael/learngit/.git/
+版本控制系统是没法跟踪Word文件的改动的
+
+
+三.添加文件到Git仓库，分两步：
+
+第一步，使用命令git add <file>，注意，可反复多次使用，添加多个文件；
+
+第二步，使用命令git commit，完成。git commit -m "add 3 files."
+
+四.提交修改
+git status 命令可以让我们时刻掌握仓库当前的状态
+git diff readme.text 查看哪里被修改了 //第一行添加了一个“distributed”单词。
+
+
+五.穿梭过去未来（版本回退）
+
+HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset --hard commit_id。
+
+穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。
+
+要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。
+ 
+
+
+六.工作区和暂存区
+暂存区stage 分支master
+Changes not staged for commit: 修改没有加入暂存区用于提交
+no changes added to commit  没有将改变的东西提交
+
+
+七.管理修改
+git diff head -- readme.txt 与git diff readme.txt暂时没看出区别
+为什么Git比其他版本控制系统设计得优秀，因为Git跟踪并管理的是修改，而非文件。
+cat readme.txt 查看文本（非版本库文本）
+
+
+
+八.撤销修改
+git checkout -- file可以丢弃工作区的修改：
+用命令git reset HEAD file可以把暂存区的修改撤销掉（unstage）
+
+九、删除文件
+一般情况下，你通常直接在文件管理器中把没用的文件删了，或者用rm命令删了：
+ rm test.txt
+要从版本库中删除该文件，那就用命令git rm删掉，并且git commit：
+checkout其实是用版本库里的版本替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”
+git checkout -- test.txt
+
+
+
+one.远程仓库
+你的本地Git仓库和GitHub仓库之间的传输是通过SSH加密的
+C:\Users\Administrator\.ssh
+添加远程库
+1：创建SSH KEY $ ssh-keygen -t rsa -C "youremail@example.com"
+以在用户主目录里找到.ssh目录，里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。
+2：登陆GitHub，打开“Account settings”，“SSH Keys”页面：
+然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容：
+
+从远程库克隆
+$ git clone git@github.com:michaelliao/gitskills.git
+$ cd gitskills
+$ ls
+README.md
+
+你也许还注意到，GitHub给出的地址不止一个，还可以用https://github.com/michaelliao/gitskills.git这样的地址。实际上，Git支持多种协议，默认的git://使用ssh，但也可以使用https等其他协议。
+使用https除了速度慢以外，还有个最大的麻烦是每次推送都必须输入口令，但是在某些只开放http端口的公司内部就无法使用ssh协议而只能用https。
+小结
+要克隆一个仓库，首先必须知道仓库的地址，然后使用git clone命令克隆。
+Git支持多种协议，包括https，但通过ssh支持的原生git协议速度最快。

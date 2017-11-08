@@ -1,0 +1,465 @@
+完美运动框架/弹力/碰撞运动
+原型
+正则
+dom优化
+闭包
+js跨域操作
+操作iframe
+历史管理
+事件委托
+ajax
+选中文字操作
+onpropertychange事件/oninput事件
+
+
+
+
+01
+多图片展示（展开/收缩）
+新浪微博发言
+无缝滚动
+弹性运动（弹力/摩擦+弹力）（滑动的菜单）
+碰撞运动（碰撞/碰撞+重力/拖拽+重力+碰撞）
+DOM事件 
+只能通过addEventListen来添加事件函数
+
+
+火狐下使用addEventListen来绑定事件时 只能通过preventDefault();来阻止默认事件
+preventDefault();这是火狐下特有的，IE和Chrome不承认
+
+
+
+var sValueInTab=oTab.tBodies[0].rows[i].cells[1].innerHTML.toLowerCase();
+arr.sort(function (li1, li2){
+	return parseInt(li1.innerHTML)-parseInt(li2.innerHTML);
+});
+	
+
+
+
+
+<?php
+class Person
+{
+	function __construct($name, $sex)
+	{
+		$this->name=$name;
+		$this->sex=$sex;
+	}
+	
+	function showName()
+	{
+		echo $this->name;
+	}
+	
+	function showSex()
+	{
+		echo $this->sex;
+	}
+}
+
+class Worker extends Person
+{
+	function __construct($name, $sex, $job)
+	{
+		parent::__construct($name, $sex);
+		
+		$this->job=$job;
+	}
+	
+	function showJob()
+	{
+		echo $this->job;
+	}
+}
+
+/*$p=new Person('blue', '男');
+
+$p->showSex();*/
+
+$w=new Worker('blue', '男', '讲师');
+
+
+smarty是MVC结构的模板引擎
+echo $_GET['user'];
+
+
+$t=time();
+$sql="INSERT INTO message (ID, content, posttime) VALUES(0, '{$content}', {$t})";
+mysql_connect('localhost', 'root', '');
+mysql_select_db('sina');
+mysql_query($sql);
+
+$sql="SELECT ID, content, posttime FROM message ORDER BY ID DESC";
+mysql_connect('localhost', 'root', '');
+mysql_select_db('sina');
+$res=mysql_query($sql);
+<?php while($row=mysql_fetch_row($res)){ ?>
+    <div><?php echo $row[1]; ?></div>
+    <?php } ?>
+
+<?php
+$user=$_GET['user'];
+$pass=$_GET['pass'];
+
+if($user=='blue' && $pass=='123456')
+{
+	echo '1';
+}
+else
+{
+	echo '0';
+}
+?>
+
+phpMyAdmin 是一个以PHP为基础，
+以Web-Base方式架构在网站主机上的MySQL的数据库管理工具，
+让管理者可用Web接口管理MySQL数据库。
+wampServer
+在window下的apache、php和mysql的服务器软件。
+
+
+
+
+	if(window.XMLHttpRequest)
+	{
+		oAjax=new XMLHttpRequest();
+	}
+	else
+	{
+		oAjax=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	
+	//2.连接服务器
+	//open('方法', '文件名', 是不是异步)
+	oAjax.open('GET', url, true);
+	
+	//3.发送请求
+	oAjax.send();
+	
+	//4.接收返回
+	oAjax.onreadystatechange=function ()	//当浏览器和服务器之间有通信的时候
+	{
+		//4——完成
+		if(oAjax.readyState==4)	//oAjax.readyState只代表是否完成，而不代表是否成功
+		{
+			//200	成功	否则失败
+			if(oAjax.status==200)
+			{
+				fnSucc(oAjax.responseText);
+			}
+			else
+			{
+				if(fnFaild)
+				{
+					fnFaild();
+				}
+			}
+		}
+	};
+}
+
+
+$w->showJob();
+
+
+
+05
+
+DOM优化
+减少DOM操作
+1.节点克隆  cloneNode
+2.访问元素集合  尽量用局部变量
+3.元素节点  尽量用只获取元素的节点方法
+4.选择器API 利用querySelector,querySelectorAll
+   
+DOM优化
+DOM 与浏览器
+重排：改变页面的内容
+重绘：浏览器显示内容 改变div颜色只会触发重绘过程
+添加顺序：尽量在appendChild前添加操作。
+合并dom操作 利用cssText; 
+缓存布局信息
+文档碎片  document.createDocumentFragment();
+
+DOM优化
+Dom与事件 事件委托
+
+Dom与前端模板 能更好的对逻辑和视图分离，MVC架构的基础
+
+
+js的跨域：
+
+www.a.com/a.js
+www.a.com/c/b.js
+
+www.a.com
+b.a.com
+
+www.a.com
+www.b.com
+
+ajax : XMLHttpRequest(); : 不能跨域的
+
+1.document.domain = 'a.com';
+
+2.服务器代理：XMLHttpRequest代理文件
+
+3.script标签 ：jsonp
+
+4.location.hash
+
+5.window.name
+
+6.flash
+
+7.html5 postMessage
+
+
+
+
+妙味课堂-视频问题解答-百叶窗效果练习
+知识点：
+1. 原理分析
+2. 效果布局
+3. 关键点分析
+4. 两套定时器
+5. 累加产生错落感
+6. 执行相反方向
+7. 执行两组运动
+8. 产生时间间隔的动画
+
+
+
+1.什么是闭包？
+2.闭包好处
+3.用在哪里以及注意事项
+
+
+1. 什么是闭包   函数嵌套函数,内部函数可以引用外部函数的参数和变量,
+参数和变量不会被垃圾回收机制所收回
+
+2. 垃圾回收机制
+3. 闭包与垃圾回收机制
+4. 闭包测试
+5. 闭包的优点
+//好处：
+//1.希望一个变量长期驻扎在内存当中
+//2.避免全局变量的污染
+//3.私有成员的存在
+
+6. 函数表达式与代码模块化模型
+7. 运用闭包在循环内找到当前索引值
+//用法：
+//1.模块化代码
+//2.在循环中直接找到对应元素的索引
+
+8. 闭包引发的内存泄露问题及解决方案
+解决方案1
+/*window.onload = function(){
+	var oDiv = document.getElementById('div1');
+	
+	oDiv.onclick = function(){
+		alert(oDiv.id);
+	};
+	
+	window.onunload = function(){
+		oDiv.onclick = null;
+	};
+	
+};*/
+解决方案1
+window.onload = function(){
+	var oDiv = document.getElementById('div1');
+	
+	var id = oDiv.id;
+	
+	oDiv.onclick = function(){
+		alert(id);
+	};
+	
+	oDiv = null;
+	
+};
+
+contentWindow
+在服务器环境下测试
+contentDocument
+二种方法的区别
+子级iframe修改父级元素内容
+window.parent
+window.top与window.parent的区别
+
+/*oIframe.onload = function(){
+		alert(123);
+	};*/
+	
+	//ie 下的iframe的onload事件只能用绑定的形式
+
+防钓鱼措施
+
+if(window!=window.top){
+	window.top.location.href = window.location.href;
+}
+
+
+深度拷贝与浅拷贝
+//递归：
+//1.函数调用函数自身，执行递的动作
+//2.最后一次判断一个终止条件，可以执行归的动作
+
+华为轮播图（最小宽度min-width问题，默认值是浏览器宽度）和韩雪轮播图
+快速排序
+历史管理（）
+什么是历史管理
+HTML5中的历史管理
+彩票球实例
+选择随机数(从35中随机选出7个数)
+HTML5中的onhashchange事件含义
+添加onhashchange事件：window.onhashchange   
+去掉地址栏网址中的逗号及及消除未定义的影响
+HTML5中的history
+history.pushState()方法的参数
+window.onpopstate事件 event.state;  不兼容IE9以及以下
+
+table下在IE使用innerhtml出错	
+
+
+
+瀑布流：浮动瀑布流（写js难写入数据容易）/定位瀑布流（写js容易写入数据难）
+
+
+函数声明、函数表达式——今天来说说这些很诡异的代码到底是些什么东东～～
+
+什么是函数声明、函数表达式
+命名函数表达式、匿名函数表达式
+表达式：
+(function fn(){})
+~function fn(){}
+-function fn(){}
++function fn(){}
+!function fn(){}
+……
+函数表达式与函数声明的区别
+命名函数表达式与匿名函数表达式的区别
+var a=function fn1(){};——执行a与fn1的区别 直接执行fn1在某些浏览器下会有问题~
+
+
+
+1. 什么是事件委托
+2. 通过事件委托提高JS执行性能
+3. 事件委托实例
+4. event对象的事件源
+5. 判断事件源对象：nodeName
+6. 运用事件委托解决新添加元素的事件添加问题
+7. 新浪微博的事件委托
+
+
+//event对象：事件源：不管在那个事件中，只要你操作的那个元素就是事件源
+
+//ie : window.event.srcElement  标准下 ：event.target
+
+//nodeName : 找到当前元素的标签名
+
+
+数码时钟的实现 图片翻转效果实现：利用图片的高度以及top值居中实现图片翻转
+
+
+
+网页进度条实现
+1. 硬编码 : 写死的数据
+
+2. 跟flash配合 ：as3 
+
+3. html5 : xhr 2 : onprogress onload 
+
+4. 跟后台的配合 ：ajax实时的返回数据
+
+
+
+//ie : onpropertychange
+//标准 : oninput
+
+
+事件：
+onfocus
+onblur
+onpropertychange
+oninput
+判断ie浏览器：!-[1,]
+处理汉字的字节：String(str).replace(/[^\x00-\xff]/g,'aa')
+编写toChange函数
+处理其他辅助功能
+
+无缝切换练习
+//复制节点：cloneNode(): 如果参数是true,就一起复制里面的子节点，如果参数是false,就不会复制里面的子节点
+
+分享练习
+
+封装selectText()方法
+document.selection.createRange().text;
+window.getSelection().toString();
+判断显示长度
+解决IE下图标与鼠标对不齐的问题：延时显示
+点击页面任意位置，隐藏小图标
+给小图标加点击事件，跳转其他地址，拼接url字符串地址
+
+延迟菜单练习
+
+
+
+
+06ajax
+服务器工具下载地址：www.php100.com
+服务器工具：warmserver   开服务的时候不要开迅雷或者看看等下载软件，会占用8080端口
+ajax Asynchronous JavaScript and XML(异步JavaScript和XML) 用JavaScript异步形式操作XML
+数据交互
+节省用户请求，提高性能（不用刷新页面）
+打开浏览器
+var xhr=new XMLHttpRequest();
+地址栏输入地址
+xhr.open('get','1.txt',true);如果再次请求地址仍然不变，则只从缓存中取数据
+提交
+xhr.send();
+等待服务器返回内容
+xhr.onreadystatechange=function(){//当状态值改变时触发
+          if(xhr.readyState==4){//请求状态
+		alert(xhr.responseText);//ajax请求的内容被存放在这个属性
+}
+status:服务器状态：http状态码 1开头代表消息类 2开头代表成功类 3开头代表重定向 4开头代表错误 5服务器错误
+
+try{
+throw new Error('');
+}catch(e){
+}
+<form enctype="application/x-www-form-urlencoded" 提交的数据格式
+}
+1.get /post
+$username=$_GET['username'];
+'{$username}'输出
+header('content-type:text/html;charset="utf-8"')；目的是防止页面乱码
+error_reporting(0);
+异步和同步：非阻塞/阻塞
+
+
+xhr.open('post',2.post.php,true);
+xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');申明数据发送的类型
+xhr.send('username=刘伟&等等等等');
+$arr1=array('s','s','s');
+echo json_encode($arr1);变成
+json.org网站
+
+get
+get服务器缓存问题
+可以再？后面加上时间戳 new Date（）.getTime();
+get请求乱码问题
+编码encodeURI（''）；
+post
+post不存在缓存问题
+post不存在乱码问题
+
+
+
+
+瀑布流
+固定列（浮动布局）与非固定列（定位布局）

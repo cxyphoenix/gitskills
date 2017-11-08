@@ -1,0 +1,407 @@
+html5语义化标签
+拖放 （解决火狐下只能拖拽图片的问题）
+网址 www.w3.org/TR
+node.js.io
+socket.io
+ajax跨域问题（IE下和非IE）
+文件如何上传
+node.js安装
+如何搭建服务器/连接socket
+离线存储
+works多线程
+conenteditable/x-webkit-speech(火狐不支持)
+桌面提醒
+地理位置对象
+
+02
+历史管理
+触发历史管理 : 1.通过跳转页面  2.hash  3.pushState 
+
+2.hash	
+var json = {};
+	
+oInput.onclick = function(){
+		
+	var num = Math.random();
+		
+	var arr = randomNum(35,7);
+		 
+	json[num] = arr;
+		
+	oDiv.innerHTML = arr;
+		
+	window.location.hash = num;
+		
+};
+	
+window.onhashchange = function(){
+	
+	oDiv.innerHTML = json[window.location.hash.substring(1)];
+		
+};
+	
+
+3.pushState 
+oInput.onclick = function(){
+		
+	var arr = randomNum(35,7);
+		
+	history.pushState(arr,'',arr);
+	
+	oDiv.innerHTML = arr;
+		
+};
+	
+window.onpopstate = function(ev){
+		
+	oDiv.innerHTML = ev.state;
+}
+	
+
+
+拖放
+	aLi[i].ondragstart = function(){
+			this.style.background = 'green';
+                       //ev.dataTransfer.setData('name','hello');
+
+			
+			ev.dataTransfer.effectAllowed = 'link';
+			
+			ev.dataTransfer.setDragImage(oImg,0,0);
+	};
+		
+	/*aLi[i].ondrag = function(){  //开始与结束连续触发
+			document.title = i++;
+	};*/
+		
+	aLi[i].ondragend = function(){
+			this.style.background = 'yellow';
+	};
+	}
+	
+	oDiv.ondragenter = function(){
+		this.style.background = 'blue';
+	};
+	
+	oDiv.ondragover = function(ev){
+		//enter和leave之间连续触发
+		//要想触发drop事件，就 必须在dragover当中阻止默认事件
+		//document.title = i++;
+		
+		ev.preventDefault();
+		
+	};
+	
+	oDiv.ondragleave = function(){
+		this.style.background = 'red';
+	};
+	
+	oDiv.ondrop = function(){
+		alert(123);
+   		//alert( ev.dataTransfer.getData('name') );
+
+		ev.preventDefault();
+		
+		var fs = ev.dataTransfer.files;
+		
+		//alert(fs.length);
+		
+		//alert( fs[0].type );
+		
+		var fd = new FileReader();
+		
+		fd.readAsDataURL( fs[0] );
+		
+		fd.onload = function(){
+			alert( this.result );
+		};
+
+	};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+03
+var oGC = oC.getContext('2d');  //webgl : 3D绘图
+<canvas id="c1" width="400" height="400">
+	<span>不支持canvas浏览器</span>
+</canvas> <!--默认：宽300 高150-->
+
+
+oGC.fillStyle = 'red';
+oGC.strokeStyle = 'blue';
+oGC.lineWidth = 10;
+oGC.fillRect(50,50,100,100);
+oGC.strokeRect(50.5,50.5,100,100);
+
+oGC.lineJoin = 'bevel';边框边界连接点变为圆角
+
+oGC.beginPath();//用于区分不同作图的起始点	
+oGC.moveTo(100,100);
+oGC.lineTo(200,200);
+oGC.lineTo(300,200);
+oGC.closePath();//闭合
+oGC.stroke();
+oGC.beginPath();
+oGC.moveTo(100,200);
+oGC.lineTo(200,300);
+oGC.lineTo(300,300);
+oGC.closePath();
+oGC.fill();
+
+
+oGC.beginPath();
+oGC.rect(100,100,100,100);//画一个矩形
+oGC.closePath();
+oGC.fill();
+oGC.clearRect(0,0,oC.width,oC.height);//清画布  
+
+oGC.save();	
+oGC.restore();
+
+oGC.lineCap = 'square';//线两端的样式
+
+用鼠标划线练习
+oGC.moveTo(200,200);
+	
+//弧度 = 角度*Math.PI/180
+oGC.arc(200,200,150,0,90*Math.PI/180,true);
+oGC.stroke();	
+
+模仿时钟练习、
+
+oGC.arcTo(100,100,200,100,50);1，2控制点 3,4结束点  5是半径
+oGC.quadraticCurveTo(100,100,200,100);1，2控制点 3,4结束点
+oGC.bezierCurveTo(100,100,200,200,200,100);贝塞尔曲线 1，2控制点 3,4控制点  5，6是结束点
+
+
+oGC.translate(100,100);//改变起始点   会累加
+oGC.rotate(20*Math.PI/180);//旋转的角度 会累加
+oGC.rotate(25*Math.PI/180);
+oGC.scale(2,2);//缩放
+oGC.fillRect(0,0,100,100);
+
+旋转并缩放的练习
+
+预加载
+var yImg = new Image();
+	
+yImg.onload = function(){
+	draw(this);
+};
+	
+yImg.src = '2.png';
+	
+function draw(obj){
+		
+	oGC.drawImage(obj,0,0);
+		
+}
+obj.parentNode.replaceChild(oC,obj);
+
+图片旋转练习
+
+var bg = oGC.createPattern(obj,'repeat');//填充
+oGC.fillStyle = bg;
+oGC.fillRect(0,0,300,300);
+
+var obj = oGC.createLinearGradient(150,100,250,200);//线性渐变
+obj.addColorStop(0,'red');
+obj.addColorStop(0.5,'yellow');
+obj.addColorStop(1,'blue');
+oGC.fillStyle = obj;
+oGC.fillRect(150,100,100,100);
+
+var obj = oGC.createRadialGradient(200,200,100,200,200,150);//圆形渐变 1,2为第一个圆心，3为半径，45为圆心，6位半径
+obj.addColorStop(0,'red');
+obj.addColorStop(0.5,'yellow');
+obj.addColorStop(1,'blue');
+oGC.fillStyle = obj;
+oGC.fillRect(0,0,oC.width,oC.height);
+
+
+oGC.font = '60px impact';
+oGC.textBaseline = 'top';  //middle bottom
+oGC.fillText('妙味课堂',0,0);
+oGC.strokeText('妙味课堂',0,200);
+
+var w = oGC.measureText('妙味课堂').width;获取宽度
+oGC.fillText('妙味课堂',(oC.width - w)/2,(oC.height - 60)/2);
+
+
+oGC.shadowOffsetX = 10;
+oGC.shadowOffsetY = 10;
+oGC.shadowBlur = 3;
+//alert(oGC.shadowColor);  //默认颜色：黑色透明
+oGC.shadowColor = 'yellow';
+var w = oGC.measureText('妙味课堂').width;
+oGC.fillText('妙味课堂',(oC.width - w)/2,(oC.height - 60)/2);
+
+
+像素操作1,2图
+var oImg = oGC.getImageData(0,0,100,100);
+	
+//alert( oImg.width );  //一行的像素个数
+//alert( oImg.height );  //一列的像素个数
+//alert( oImg.data.length );  //整体像素的数组集合
+//alert( oImg.data[0] );  //0 - 255 黑色到白色
+//alert( oImg.data[1] );  //0 - 255 黑色到白色 
+//alert( oImg.data[2] );  //0 - 255 黑色到白色
+//alert( oImg.data[3] );  //0 - 255 透明到不透明
+for(var i=0;i<oImg.width*oImg.height;i++){
+	oImg.data[4*i] = 255;
+	oImg.data[4*i+1] = 0;
+	oImg.data[4*i+2] = 0;
+	oImg.data[4*i+3] = 100;
+		
+}
+oGC.putImageData(oImg,100,100);
+
+
+var oImg = oGC.createImageData(100,100);
+for(var i=0;i<oImg.width*oImg.height;i++){
+	oImg.data[4*i] = 255;
+	oImg.data[4*i+1] = 0;
+	oImg.data[4*i+2] = 0;
+	oImg.data[4*i+3] = 100;
+}
+oGC.putImageData(oImg,100,100);
+
+点字的显示练习
+点字渐变为实心字练习
+setXY与getXY 获取某个坐标的颜色或者设置练习
+图片反色/倒影/渐变/马赛克练习
+
+合成与画布导出图
+oGC.globalAlpha = 0.5;
+oGC.globalCompositeOperation = 'xor';
+oImg.src = oC.toDataURL();获取canvers图片
+
+if( oGC.isPointInPath(x,y) ){
+	alert(123);
+}
+点击不同区域弹出不同alert()；的练习
+
+设置填充颜色
+jc.start('c1',true);  //第二个参数：代表重绘的意思	
+//jc.rect(100,100,50,50,'#ff0000',1);
+jc.circle(100,100,50,'#ff0000',1).id('c1');
+	
+jc.start('c1');
+	
+oInput.onclick = function(){
+		
+	jc('#c1').color('#ffff00');
+	
+};
+
+拖动圆
+jc.start('c1',true);  //第二个参数：代表重绘的意思
+//jc.rect(100,100,50,50,'#ff0000',1);
+jc.circle(100,100,50,'#ff0000',1).click(function(){
+	alert(123);
+});
+jc.start('c1');
+jc.circle(100,100,50,'#ff0000',1).draggable();
+
+圆大小和位置变化
+jc.start('c1',true);  //第二个参数：代表重绘的意思
+//jc.rect(100,100,50,50,'#ff0000',1);
+jc.circle(100,100,50,'#ff0000',1).id('c1');
+jc.start('c1');
+oInput.onclick = function(){
+		
+  	jc('#c1').color('#ffff00').animate({x:200,y:200,radius:5},2000);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+04
+window.addEventListener('message', function(ev) {
+		//alert('b.com下的页面接收到了内容了');
+		
+		//message事件的事件对象下保存了发送过来的内容
+		//ev.data : 发送过来的数据
+		//ev.origin
+		
+		//alert('我接收到了a.com页面发送过来的数据，内容是：' + ev.data);
+		
+		//alert(ev.origin);
+		
+		
+		if (ev.data == '1') {
+			document.body.style.background = 'red';
+		}
+		
+	}, false);
+
+
+
+
+
+		//alert(oMyFile.value);	//获取到的是file控件的value值，这个内容是显示给你看的文字，不是我们选择的文件
+		
+		//oMyFile.files file控件中选择的文件列表对象
+		//alert(oMyFile.files);
+		
+		//我们是要通过ajax把oMyFile.files[0]数据发送给后端
+		
+		/*for (var attr in oMyFile.files[0]) {
+			console.log( attr + ' : ' + oMyFile.files[0][attr] );
+		}*/
+		
+		var xhr = new XMLHttpRequest();
+		
+		//
+		xhr.onload = function() {
+			//alert(1);
+			//var d = JSON.parse(this.responseText);
+			
+			//alert(d.msg + ' : ' + d.url);
+			
+			alert('OK,上传完成');
+		}
+		
+		//alert(xhr.upload);
+		var oUpload = xhr.upload;
+		//alert(oUpload);
+		oUpload.onprogress  = function(ev) {
+			console.log(ev.total + ' : ' + ev.loaded);
+			
+			var iScale = ev.loaded / ev.total;
+			
+			oDiv2.style.width = 300 * iScale + 'px';
+			oDiv3.innerHTML = iScale * 100 + '%';
+			
+		}
+		
+		xhr.open('post', 'post_file.php', true);
+		xhr.setRequestHeader('X-Request-With', 'XMLHttpRequest');
+		
+		var oFormData = new FormData();	//通过FormData来构建提交数据
+		oFormData.append('file', oMyFile.files[0]);
+		xhr.send(oFormData);
+		
